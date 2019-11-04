@@ -34,4 +34,8 @@ public class Player : MonoBehaviour {
 	public virtual void TurnUpdate() {
 
 	}
+
+	public virtual void TurnOnGUI() {
+
+	}
 }

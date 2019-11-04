@@ -28,4 +28,8 @@ public class AIPlayer : Player {
 
 		base.TurnUpdate();
 	}
+
+	public override void TurnOnGUI() {
+		base.TurnOnGUI();
+	}
 }

@@ -16,11 +16,14 @@ public class Tile : MonoBehaviour {
 
 	}
 
-	void OnMouseEnter() {	
-		// transform.renderer.material.color = Color.blue;
-		GetComponent<Renderer>().material.color = Color.blue;
-
-		Debug.Log("my position is (" + gridPosition.x + "," + gridPosition.y);
+	void OnMouseEnter() {
+		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
+			// transform.renderer.material.color = Color.blue;
+			GetComponent<Renderer>().material.color = Color.blue;
+		} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
+			GetComponent<Renderer>().material.color = Color.red;
+		}
+		// Debug.Log("my position is (" + gridPosition.x + "," + gridPosition.y);
 	}
 
 	void OnMouseExit() {
@@ -28,6 +31,10 @@ public class Tile : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		GameManager.instance.moveCurrentPlayer(this);
+		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
+			GameManager.instance.moveCurrentPlayer(this);
+		} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
+			// GameManager.instance.moveCurrentPlayer(this);
+		}
 	}
 }
