@@ -20,7 +20,7 @@ public class AIPlayer : Player {
 
 			if (Vector3.Distance(moveDestination, transform.position) <= 0.1f) {
 				transform.position = moveDestination;
-				GameManager.instance.nextTurn();
+				actionPoints--;
 			}
 		} else {
 			moveDestination = new Vector3(0 - Mathf.Floor(GameManager.instance.mapSize / 2), 1.5f, -0 + Mathf.Floor(GameManager.instance.mapSize / 2));

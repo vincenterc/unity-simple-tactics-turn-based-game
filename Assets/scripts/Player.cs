@@ -20,6 +20,8 @@ public class Player : MonoBehaviour {
 	public int damageBase = 5;
 	public float damageRollSides = 6; // d6
 
+	public int actionPoints = 2;
+
 	void Awake() {
 		moveDestination = transform.position;
 	}
@@ -35,7 +37,12 @@ public class Player : MonoBehaviour {
 	}
 
 	public virtual void TurnUpdate() {
-
+		if (actionPoints <= 0) {
+			actionPoints = 2;
+			moving = false;
+			attacking = false;
+			GameManager.instance.nextTurn();
+		}
 	}
 
 	public virtual void TurnOnGUI() {

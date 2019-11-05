@@ -29,6 +29,7 @@ public class UserPlayer : Player {
 
 			if (Vector3.Distance(moveDestination, transform.position) <= 0.1f) {
 				transform.position = moveDestination;
+				actionPoints--;
 			}
 		}
 
@@ -70,6 +71,7 @@ public class UserPlayer : Player {
 		buttonRect = new Rect(0, Screen.height - buttonHeight * 1, buttonWidth, buttonHeight);
 
 		if (GUI.Button(buttonRect, "End Turn")) {
+			actionPoints = 2;
 			moving = false;
 			attacking = false;
 			GameManager.instance.nextTurn();

@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour {
 		if (target != null) {
 			if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
 				players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
+				players[currentPlayerIndex].actionPoints--;
+
 				// attack logic
 				// roll to hit
 				bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance;
