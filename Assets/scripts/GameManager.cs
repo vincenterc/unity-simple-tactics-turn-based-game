@@ -27,11 +27,12 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		players[currentPlayerIndex].TurnUpdate();
+		if (players[currentPlayerIndex].HP > 0) players[currentPlayerIndex].TurnUpdate();
+		else nextTurn();
 	}
 
 	void OnGUI() {
-		players[currentPlayerIndex].TurnOnGUI();
+		if (players[currentPlayerIndex].HP > 0) players[currentPlayerIndex].TurnOnGUI();
 	}
 
 	public void nextTurn() {
@@ -43,7 +44,39 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void moveCurrentPlayer(Tile destTile) {
+		players[currentPlayerIndex].gridPosition = destTile.gridPosition;
 		players[currentPlayerIndex].moveDestination = destTile.transform.position + 1.5f * Vector3.up;
+	}
+
+	public void attackWithCurrentPlayer(Tile destTile) {
+		Player target = null;
+		foreach (Player p in players) {
+			if (p.gridPosition == destTile.gridPosition) {
+				target = p;
+			}
+		}
+
+		if (target != null) {
+			if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
+				players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
+				// attack logic
+				// roll to hit
+				bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance;
+
+				if (hit) {
+					// damage logic
+					int amountDamage = (int) Mathf.Floor(players[currentPlayerIndex].damageBase + (int) Random.Range(0, players[currentPlayerIndex].damageRollSides));
+
+					target.HP -= amountDamage;
+
+					Debug.Log(players[currentPlayerIndex].playerName + " successfully hit " + target.playerName + " for " + amountDamage + " damages!");
+				} else {
+					Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
+				}
+			} else {
+				Debug.Log("Target is not adjacent");
+			}
+		}
 	}
 
 	void generateMap() {
@@ -63,14 +96,20 @@ public class GameManager : MonoBehaviour {
 		UserPlayer player;
 
 		player = ((GameObject) Instantiate(UserplayerPrefab, new Vector3(0 - Mathf.Floor(mapSize / 2), 1.5f, -0 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(0, 0);
+		player.playerName = "Bob";
 
 		players.Add(player);
 
 		player = ((GameObject) Instantiate(UserplayerPrefab, new Vector3((mapSize - 1) - Mathf.Floor(mapSize / 2), 1.5f, -(mapSize - 1) + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(mapSize - 1, mapSize - 1);
+		player.playerName = "Kyle";
 
 		players.Add(player);
 
 		player = ((GameObject) Instantiate(UserplayerPrefab, new Vector3(4 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(4, 4);
+		player.playerName = "Lars";
 
 		players.Add(player);
 

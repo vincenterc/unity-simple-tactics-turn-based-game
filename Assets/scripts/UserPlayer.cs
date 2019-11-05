@@ -16,6 +16,11 @@ public class UserPlayer : Player {
 		} else {
 			GetComponent<Renderer>().material.color = Color.white;
 		}
+
+		if (HP <= 0) {
+			transform.rotation = Quaternion.Euler(new Vector3(90, 0, 0));
+			GetComponent<Renderer>().material.color = Color.red;
+		}
 	}
 
 	public override void TurnUpdate() {
@@ -63,6 +68,7 @@ public class UserPlayer : Player {
 
 		// end button
 		buttonRect = new Rect(0, Screen.height - buttonHeight * 1, buttonWidth, buttonHeight);
+
 		if (GUI.Button(buttonRect, "End Turn")) {
 			moving = false;
 			attacking = false;

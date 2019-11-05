@@ -34,7 +34,7 @@ public class Tile : MonoBehaviour {
 		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
 			GameManager.instance.moveCurrentPlayer(this);
 		} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
-			// GameManager.instance.moveCurrentPlayer(this);
+			GameManager.instance.attackWithCurrentPlayer(this);
 		}
 	}
 }
