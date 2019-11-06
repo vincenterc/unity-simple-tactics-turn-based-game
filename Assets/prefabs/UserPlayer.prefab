@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 136110837257700846}
   - component: {fileID: 23629236339941306}
   - component: {fileID: 114080807361044706}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: UserPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,6 +95,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 995255873edaa4449b2704e505f37209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridPosition: {x: 0, y: 0}
+  moveDestination: {x: 0, y: 0, z: 0}
+  moveSpeed: 10
+  movementPerActionPoint: 5
+  attachRange: 1
+  moving: 0
+  attacking: 0
+  playerName: George
+  HP: 25
+  attackChance: 0.75
+  defenseReduction: 0.15
+  damageBase: 5
+  damageRollSides: 6
+  actionPoints: 2
 --- !u!136 &136110837257700846
 CapsuleCollider:
   m_ObjectHideFlags: 1
