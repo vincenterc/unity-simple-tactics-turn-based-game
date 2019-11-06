@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
 
 	public int mapSize = 11;
 
-	List<List<Tile>> map = new List<List<Tile>>();
+	public List<List<Tile>> map = new List<List<Tile>>();
 	public List<Player> players = new List<Player>();
 	public int currentPlayerIndex = 0;
 
@@ -43,41 +43,70 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void highlightTilesAt(Vector2 originLocation, Color highlightColor, int distance) {
+		List<Tile> highlightedTiles = TileHighlight.FindHighlight(map[(int) originLocation.x][(int) originLocation.y], distance);
+
+		foreach (Tile t in highlightedTiles) {
+			t.GetComponent<Renderer>().material.color = highlightColor;
+		}
+	}
+
+	public void removeTileHighlights() {
+		for (int i = 0; i < mapSize; i++) {
+			for (int j = 0; j < mapSize; j++) {
+				map[i][j].GetComponent<Renderer>().material.color = Color.white;
+			}
+		}
+	}
+
 	public void moveCurrentPlayer(Tile destTile) {
-		players[currentPlayerIndex].gridPosition = destTile.gridPosition;
-		players[currentPlayerIndex].moveDestination = destTile.transform.position + 1.5f * Vector3.up;
+		if (destTile.GetComponent<Renderer>().material.color != Color.white) {
+			removeTileHighlights();
+			players[currentPlayerIndex].moving = false;
+			players[currentPlayerIndex].gridPosition = destTile.gridPosition;
+			players[currentPlayerIndex].moveDestination = destTile.transform.position + 1.5f * Vector3.up;
+		} else {
+			Debug.Log("Destination invalid");
+		}
 	}
 
 	public void attackWithCurrentPlayer(Tile destTile) {
-		Player target = null;
-		foreach (Player p in players) {
-			if (p.gridPosition == destTile.gridPosition) {
-				target = p;
-			}
-		}
-
-		if (target != null) {
-			if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
-				players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
-				players[currentPlayerIndex].actionPoints--;
-
-				// attack logic
-				// roll to hit
-				bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance;
-
-				if (hit) {
-					// damage logic
-					int amountDamage = (int) Mathf.Floor(players[currentPlayerIndex].damageBase + (int) Random.Range(0, players[currentPlayerIndex].damageRollSides));
-
-					target.HP -= amountDamage;
-
-					Debug.Log(players[currentPlayerIndex].playerName + " successfully hit " + target.playerName + " for " + amountDamage + " damages!");
-				} else {
-					Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
+		if (destTile.GetComponent<Renderer>().material.color != Color.white) {
+			Player target = null;
+			foreach (Player p in players) {
+				if (p.gridPosition == destTile.gridPosition) {
+					target = p;
 				}
-			} else {
-				Debug.Log("Target is not adjacent");
 			}
+
+			if (target != null) {
+				if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
+					players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
+					players[currentPlayerIndex].actionPoints--;
+
+					removeTileHighlights();
+					players[currentPlayerIndex].attacking = false;
+
+					// attack logic
+					// roll to hit
+					bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance;
+
+					if (hit) {
+						// damage logic
+						int amountDamage = (int) Mathf.Floor(players[currentPlayerIndex].damageBase + (int) Random.Range(0, players[currentPlayerIndex].damageRollSides));
+
+						target.HP -= amountDamage;
+
+						Debug.Log(players[currentPlayerIndex].playerName + " successfully hit " + target.playerName + " for " + amountDamage + " damages!");
+					} else {
+						Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
+					}
+				} else {
+					Debug.Log("Target is not adjacent");
+				}
+			}
+		} else {
+			Debug.Log("Destination invalid");
 		}
 	}
 

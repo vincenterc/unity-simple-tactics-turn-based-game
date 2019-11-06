@@ -45,24 +45,31 @@ public class UserPlayer : Player {
 		// move button
 		if (GUI.Button(buttonRect, "Move")) {
 			if (!moving) {
+				GameManager.instance.removeTileHighlights();
 				moving = true;
 				attacking = false;
+				GameManager.instance.highlightTilesAt(gridPosition, Color.blue, movementPerActionPoint);
 			} else {
 				moving = false;
 				attacking = false;
+				GameManager.instance.removeTileHighlights();
 			}
 
 		}
 
 		// attack button
 		buttonRect = new Rect(0, Screen.height - buttonHeight * 2, buttonWidth, buttonHeight);
+
 		if (GUI.Button(buttonRect, "Attack")) {
 			if (!attacking) {
+				GameManager.instance.removeTileHighlights();
 				moving = false;
 				attacking = true;
+				GameManager.instance.highlightTilesAt(gridPosition, Color.red, attackRange);
 			} else {
 				moving = false;
 				attacking = false;
+				GameManager.instance.removeTileHighlights();
 			}
 
 		}
@@ -71,6 +78,7 @@ public class UserPlayer : Player {
 		buttonRect = new Rect(0, Screen.height - buttonHeight * 1, buttonWidth, buttonHeight);
 
 		if (GUI.Button(buttonRect, "End Turn")) {
+			GameManager.instance.removeTileHighlights();
 			actionPoints = 2;
 			moving = false;
 			attacking = false;
