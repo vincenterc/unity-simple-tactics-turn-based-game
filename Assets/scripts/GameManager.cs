@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 
 	public GameObject TilePrefab;
-	public GameObject UserplayerPrefab;
-	public GameObject AIplayerPrefab;
+	public GameObject UserPlayerPrefab;
+	public GameObject AIPlayerPrefab;
 
 	public int mapSize = 11;
 
@@ -126,25 +126,25 @@ public class GameManager : MonoBehaviour {
 	void generatePlayers() {
 		UserPlayer player;
 
-		player = ((GameObject) Instantiate(UserplayerPrefab, new Vector3(0 - Mathf.Floor(mapSize / 2), 1.5f, -0 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(0 - Mathf.Floor(mapSize / 2), 1.5f, -0 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
 		player.gridPosition = new Vector2(0, 0);
 		player.playerName = "Bob";
 
 		players.Add(player);
 
-		player = ((GameObject) Instantiate(UserplayerPrefab, new Vector3((mapSize - 1) - Mathf.Floor(mapSize / 2), 1.5f, -(mapSize - 1) + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3((mapSize - 1) - Mathf.Floor(mapSize / 2), 1.5f, -(mapSize - 1) + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
 		player.gridPosition = new Vector2(mapSize - 1, mapSize - 1);
 		player.playerName = "Kyle";
 
 		players.Add(player);
 
-		player = ((GameObject) Instantiate(UserplayerPrefab, new Vector3(4 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(4 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
 		player.gridPosition = new Vector2(4, 4);
 		player.playerName = "Lars";
 
 		players.Add(player);
 
-		// AIPlayer aiplayer = ((GameObject) Instantiate(AIplayerPrefab, new Vector3(6 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		// AIPlayer aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(6 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
 
 		// players.Add(aiplayer);
 	}
