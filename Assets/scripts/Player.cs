@@ -25,6 +25,9 @@ public class Player : MonoBehaviour {
 
 	public int actionPoints = 2;
 
+	// movement animation
+	public List<Vector3> positionQueue = new List<Vector3>();
+
 	void Awake() {
 		moveDestination = transform.position;
 	}

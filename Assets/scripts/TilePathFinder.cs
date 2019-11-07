@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class TileHighlight {
+public class TilePathFinder : MonoBehaviour {
 
-	public TileHighlight() {
-
-	}
-
-	public static List<Tile> FindHighlight(Tile originTile, int movementPoints) {
+	public static List<Tile> FindPath(Tile originTile, Tile destinationTile) {
 		List<Tile> closed = new List<Tile>();
 		List<TilePath> open = new List<TilePath>();
 
@@ -24,8 +21,9 @@ public class TileHighlight {
 			if (closed.Contains(current.lastTile)) {
 				continue;
 			}
-			if (current.costOfPath > movementPoints + 1) {
-				continue;
+			if (current.lastTile == destinationTile) {
+				current.listOfTiles.Remove(originTile);
+				return current.listOfTiles;
 			}
 
 			closed.Add(current.lastTile);
@@ -36,7 +34,6 @@ public class TileHighlight {
 				open.Add(newTilePath);
 			}
 		}
-		closed.Remove(originTile);
-		return closed;
+		return null;
 	}
 }

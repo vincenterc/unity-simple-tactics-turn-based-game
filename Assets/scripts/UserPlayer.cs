@@ -24,12 +24,16 @@ public class UserPlayer : Player {
 	}
 
 	public override void TurnUpdate() {
-		if (Vector3.Distance(moveDestination, transform.position) > 0.1f) {
-			transform.position += (moveDestination - transform.position).normalized * moveSpeed * Time.deltaTime;
 
-			if (Vector3.Distance(moveDestination, transform.position) <= 0.1f) {
-				transform.position = moveDestination;
-				actionPoints--;
+		if (positionQueue.Count > 0) {
+			transform.position += (positionQueue[0] - transform.position).normalized * moveSpeed * Time.deltaTime;
+
+			if (Vector3.Distance(positionQueue[0], transform.position) <= 0.1f) {
+				transform.position = positionQueue[0];
+				positionQueue.RemoveAt(0);
+				if (positionQueue.Count == 0) {
+					actionPoints--;
+				}
 			}
 		}
 

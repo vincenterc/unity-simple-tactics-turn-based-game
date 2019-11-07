@@ -63,8 +63,10 @@ public class GameManager : MonoBehaviour {
 		if (destTile.GetComponent<Renderer>().material.color != Color.white) {
 			removeTileHighlights();
 			players[currentPlayerIndex].moving = false;
+			foreach (Tile t in TilePathFinder.FindPath(map[(int) players[currentPlayerIndex].gridPosition.x][(int) players[currentPlayerIndex].gridPosition.y], destTile)) {
+				players[currentPlayerIndex].positionQueue.Add(map[(int) t.gridPosition.x][(int) t.gridPosition.y].transform.position + 1.5f * Vector3.up);
+			}
 			players[currentPlayerIndex].gridPosition = destTile.gridPosition;
-			players[currentPlayerIndex].moveDestination = destTile.transform.position + 1.5f * Vector3.up;
 		} else {
 			Debug.Log("Destination invalid");
 		}
