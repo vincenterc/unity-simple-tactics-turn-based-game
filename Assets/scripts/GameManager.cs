@@ -54,13 +54,13 @@ public class GameManager : MonoBehaviour {
 	public void removeTileHighlights() {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
-				map[i][j].GetComponent<Renderer>().material.color = Color.white;
+				if (!map[i][j].impassible) map[i][j].GetComponent<Renderer>().material.color = Color.white;
 			}
 		}
 	}
 
 	public void moveCurrentPlayer(Tile destTile) {
-		if (destTile.GetComponent<Renderer>().material.color != Color.white) {
+		if (destTile.GetComponent<Renderer>().material.color != Color.white && !destTile.impassible) {
 			removeTileHighlights();
 			players[currentPlayerIndex].moving = false;
 			foreach (Tile t in TilePathFinder.FindPath(map[(int) players[currentPlayerIndex].gridPosition.x][(int) players[currentPlayerIndex].gridPosition.y], destTile)) {
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void attackWithCurrentPlayer(Tile destTile) {
-		if (destTile.GetComponent<Renderer>().material.color != Color.white) {
+		if (destTile.GetComponent<Renderer>().material.color != Color.white && !destTile.impassible) {
 			Player target = null;
 			foreach (Player p in players) {
 				if (p.gridPosition == destTile.gridPosition) {

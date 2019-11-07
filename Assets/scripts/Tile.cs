@@ -7,6 +7,7 @@ public class Tile : MonoBehaviour {
 	public Vector2 gridPosition = Vector2.zero;
 
 	public int movementCost = 1;
+	public bool impassible = false;
 
 	public List<Tile> neighbors = new List<Tile>();
 
@@ -70,6 +71,13 @@ public class Tile : MonoBehaviour {
 			GameManager.instance.moveCurrentPlayer(this);
 		} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
 			GameManager.instance.attackWithCurrentPlayer(this);
+		} else {
+			impassible = impassible ? false : true;
+			if (impassible) {
+				GetComponent<Renderer>().material.color = new Color(.5f, .5f, 0.0f);
+			} else {
+				GetComponent<Renderer>().material.color = Color.white;
+			}
 		}
 	}
 }

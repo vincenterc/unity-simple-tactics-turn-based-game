@@ -31,6 +31,7 @@ public class TileHighlight {
 			closed.Add(current.lastTile);
 
 			foreach (Tile t in current.lastTile.neighbors) {
+				if (t.impassible) continue;
 				TilePath newTilePath = new TilePath(current);
 				newTilePath.addTile(t);
 				open.Add(newTilePath);
