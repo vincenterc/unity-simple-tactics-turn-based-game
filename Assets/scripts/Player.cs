@@ -42,6 +42,13 @@ public class Player : MonoBehaviour {
 
 	}
 
+	public void OnGUI() {
+		// display HP
+		Vector3 Location = Camera.main.WorldToScreenPoint(transform.position) + Vector3.up * 35;
+		GUI.TextArea(new Rect(Location.x, Screen.height - Location.y, 30, 20), HP.ToString());
+
+	}
+
 	public virtual void TurnUpdate() {
 		if (actionPoints <= 0) {
 			actionPoints = 2;
