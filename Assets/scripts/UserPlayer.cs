@@ -52,7 +52,7 @@ public class UserPlayer : Player {
 				GameManager.instance.removeTileHighlights();
 				moving = true;
 				attacking = false;
-				GameManager.instance.highlightTilesAt(gridPosition, Color.blue, movementPerActionPoint);
+				GameManager.instance.highlightTilesAt(gridPosition, Color.blue, movementPerActionPoint, false);
 			} else {
 				moving = false;
 				attacking = false;
