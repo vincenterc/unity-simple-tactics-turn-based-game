@@ -151,8 +151,10 @@ public class GameManager : MonoBehaviour {
 
 		players.Add(player);
 
-		// AIPlayer aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(6 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		AIPlayer aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(6 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer.gridPosition = new Vector2(6, 4);
+		aiplayer.playerName = "Bot1";
 
-		// players.Add(aiplayer);
+		players.Add(aiplayer);
 	}
 }
