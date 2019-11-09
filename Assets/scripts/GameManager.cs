@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject UserPlayerPrefab;
 	public GameObject AIPlayerPrefab;
 
-	public int mapSize = 11;
+	public int mapSize = 22;
 
 	public List<List<Tile>> map = new List<List<Tile>>();
 	public List<Player> players = new List<Player>();
@@ -151,9 +151,33 @@ public class GameManager : MonoBehaviour {
 
 		players.Add(player);
 
+		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(8 - Mathf.Floor(mapSize / 2), 1.5f, -8 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(8, 8);
+		player.playerName = "Olivia";
+
+		players.Add(player);
+
 		AIPlayer aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(6 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
 		aiplayer.gridPosition = new Vector2(6, 4);
 		aiplayer.playerName = "Bot1";
+
+		players.Add(aiplayer);
+
+		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(8 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer.gridPosition = new Vector2(8, 4);
+		aiplayer.playerName = "Bot2";
+
+		players.Add(aiplayer);
+
+		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(11 - Mathf.Floor(mapSize / 2), 1.5f, -0 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer.gridPosition = new Vector2(11, 0);
+		aiplayer.playerName = "Bot3";
+
+		players.Add(aiplayer);
+
+		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(18 - Mathf.Floor(mapSize / 2), 1.5f, -8 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer.gridPosition = new Vector2(18, 8);
+		aiplayer.playerName = "Bot4";
 
 		players.Add(aiplayer);
 	}
