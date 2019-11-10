@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Tile : MonoBehaviour {
+
+	GameObject PREFEB;
+	public TileType type = TileType.Normal;
 
 	public Vector2 gridPosition = Vector2.zero;
 
@@ -13,8 +17,7 @@ public class Tile : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		// In case GamaManager.instance.map.Count = 0
-		if (GameManager.instance.map.Count > 0) generateNeighbors();
+		if (SceneManager.GetActiveScene().name == "GameScene") generateNeighbors();
 	}
 
 	void generateNeighbors() {
@@ -79,5 +82,48 @@ public class Tile : MonoBehaviour {
 				GetComponent<Renderer>().material.color = Color.white;
 			}
 		}
+	}
+
+	public void setType(TileType t) {
+		type = t;
+		// definition of TileType properties
+		switch (t) {
+			case TileType.Normal:
+				movementCost = 1;
+				impassible = false;
+				PREFEB = PrefabHolder.instance.TILE_NORMAL_PREFEB;
+				break;
+
+			case TileType.Difficult:
+				movementCost = 2;
+				impassible = false;
+				PREFEB = PrefabHolder.instance.TILE_DIFFICULT_PREFEB;
+				break;
+
+			case TileType.VeryDifficult:
+				movementCost = 4;
+				impassible = false;
+				PREFEB = PrefabHolder.instance.TILE_VERY_DIFFICULT_PREFEB;
+				break;
+
+			case TileType.Impassible:
+				movementCost = 9999;
+				impassible = true;
+				PREFEB = PrefabHolder.instance.TILE_IMPASSIBLE_PREFEB;
+				break;
+		}
+
+		generateVisuals();
+	}
+
+	public void generateVisuals() {
+		GameObject container = transform.Find("Visuals").gameObject;
+		// initially remove all children 
+		for (int i = 0; i < container.transform.childCount; i++) {
+			Destroy(container.transform.GetChild(i).gameObject);
+		}
+
+		GameObject newVisual = (GameObject) Instantiate(PREFEB, transform.position, Quaternion.Euler(new Vector3(0, 90, 0)));
+		newVisual.transform.parent = container.transform;
 	}
 }
