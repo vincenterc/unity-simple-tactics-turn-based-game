@@ -54,6 +54,9 @@ public class Tile : MonoBehaviour {
 	}
 
 	void OnMouseEnter() {
+		if (SceneManager.GetActiveScene().name == "MapCreatorScene" && Input.GetMouseButton(0)) {
+			setType(MapCreatorManager.instance.palletSelection);
+		}
 		/*
 		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
 			// transform.renderer.material.color = Color.blue;
@@ -70,17 +73,21 @@ public class Tile : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
-			GameManager.instance.moveCurrentPlayer(this);
-		} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
-			GameManager.instance.attackWithCurrentPlayer(this);
-		} else {
-			impassible = impassible ? false : true;
-			if (impassible) {
-				GetComponent<Renderer>().material.color = new Color(.5f, .5f, 0.0f);
+		if (SceneManager.GetActiveScene().name == "GameScene") {
+			if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
+				GameManager.instance.moveCurrentPlayer(this);
+			} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
+				GameManager.instance.attackWithCurrentPlayer(this);
 			} else {
-				GetComponent<Renderer>().material.color = Color.white;
+				impassible = impassible ? false : true;
+				if (impassible) {
+					GetComponent<Renderer>().material.color = new Color(.5f, .5f, 0.0f);
+				} else {
+					GetComponent<Renderer>().material.color = Color.white;
+				}
 			}
+		} else if (SceneManager.GetActiveScene().name == "MapCreatorScene") {
+			setType(MapCreatorManager.instance.palletSelection);
 		}
 	}
 
@@ -123,7 +130,7 @@ public class Tile : MonoBehaviour {
 			Destroy(container.transform.GetChild(i).gameObject);
 		}
 
-		GameObject newVisual = (GameObject) Instantiate(PREFEB, transform.position, Quaternion.Euler(new Vector3(0, 90, 0)));
+		GameObject newVisual = (GameObject) Instantiate(PREFEB, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
 		newVisual.transform.parent = container.transform;
 	}
 }
