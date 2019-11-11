@@ -47,7 +47,11 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void highlightTilesAt(Vector2 originLocation, Color highlightColor, int distance, bool ignorePlayers = true) {
+	public void highlightTilesAt(Vector2 originLocation, Color highlightColor, int distance) {
+		highlightTilesAt(originLocation, highlightColor, distance, true);
+	}
+
+	public void highlightTilesAt(Vector2 originLocation, Color highlightColor, int distance, bool ignorePlayers) {
 
 		List<Tile> highlightedTiles = new List<Tile>();
 
@@ -77,6 +81,7 @@ public class GameManager : MonoBehaviour {
 			players[currentPlayerIndex].gridPosition = destTile.gridPosition;
 		} else {
 			Debug.Log("Destination invalid");
+			destTile.visual.GetComponent<Renderer>().materials[0].color = Color.cyan;
 		}
 	}
 
