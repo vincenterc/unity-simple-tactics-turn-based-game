@@ -19,6 +19,9 @@ public class TileXml {
 
 [XmlRoot("MapCollection")]
 public class MapXmlContainer {
+	[XmlAttribute("size")]
+	public int size;
+
 	[XmlArray("Tiles")]
 	[XmlArrayItem("Tile")]
 	public List<TileXml> tiles = new List<TileXml>();
@@ -36,7 +39,8 @@ public static class MapSaveLoad {
 		}
 
 		return new MapXmlContainer() {
-			tiles = tiles
+			size = map.Count,
+				tiles = tiles
 		};
 	}
 
