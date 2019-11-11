@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class Tile : MonoBehaviour {
 
 	GameObject PREFEB;
+
+	public GameObject visual;
+
 	public TileType type = TileType.Normal;
 
 	public Vector2 gridPosition = Vector2.zero;
@@ -17,7 +20,7 @@ public class Tile : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		if (SceneManager.GetActiveScene().name == "GameScene") generateNeighbors();
+		if (SceneManager.GetActiveScene().name == "gameScene") generateNeighbors();
 	}
 
 	void generateNeighbors() {
@@ -57,23 +60,14 @@ public class Tile : MonoBehaviour {
 		if (SceneManager.GetActiveScene().name == "MapCreatorScene" && Input.GetMouseButton(0)) {
 			setType(MapCreatorManager.instance.palletSelection);
 		}
-		/*
-		if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
-			// transform.renderer.material.color = Color.blue;
-			GetComponent<Renderer>().material.color = Color.blue;
-		} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
-			GetComponent<Renderer>().material.color = Color.red;
-		}
-		*/
-		// Debug.Log("my position is (" + gridPosition.x + "," + gridPosition.y);
 	}
 
 	void OnMouseExit() {
-		// GetComponent<Renderer>().material.color = Color.white;
+
 	}
 
 	void OnMouseDown() {
-		if (SceneManager.GetActiveScene().name == "GameScene") {
+		if (SceneManager.GetActiveScene().name == "gameScene") {
 			if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].moving) {
 				GameManager.instance.moveCurrentPlayer(this);
 			} else if (GameManager.instance.players[GameManager.instance.currentPlayerIndex].attacking) {
@@ -81,9 +75,9 @@ public class Tile : MonoBehaviour {
 			} else {
 				impassible = impassible ? false : true;
 				if (impassible) {
-					GetComponent<Renderer>().material.color = new Color(.5f, .5f, 0.0f);
+					visual.GetComponent<Renderer>().materials[0].color = new Color(.5f, .5f, 0.0f);
 				} else {
-					GetComponent<Renderer>().material.color = Color.white;
+					visual.GetComponent<Renderer>().materials[0].color = Color.white;
 				}
 			}
 		} else if (SceneManager.GetActiveScene().name == "MapCreatorScene") {
@@ -118,6 +112,12 @@ public class Tile : MonoBehaviour {
 				impassible = true;
 				PREFEB = PrefabHolder.instance.TILE_IMPASSIBLE_PREFEB;
 				break;
+
+			default:
+				movementCost = 1;
+				impassible = false;
+				PREFEB = PrefabHolder.instance.TILE_NORMAL_PREFEB;
+				break;
 		}
 
 		generateVisuals();
@@ -132,5 +132,7 @@ public class Tile : MonoBehaviour {
 
 		GameObject newVisual = (GameObject) Instantiate(PREFEB, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
 		newVisual.transform.parent = container.transform;
+
+		visual = newVisual;
 	}
 }

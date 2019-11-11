@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject AIPlayerPrefab;
 
 	public int mapSize = 22;
+	Transform mapTransform;
 
 	public List<List<Tile>> map = new List<List<Tile>>();
 	public List<Player> players = new List<Player>();
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour {
 
 	void Awake() {
 		instance = this;
+
+		mapTransform = transform.Find("Map");
 	}
 
 	// Use this for initialization
@@ -52,20 +55,20 @@ public class GameManager : MonoBehaviour {
 		else highlightedTiles = TileHighlight.FindHighlight(map[(int) originLocation.x][(int) originLocation.y], distance, players.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray());
 
 		foreach (Tile t in highlightedTiles) {
-			t.GetComponent<Renderer>().material.color = highlightColor;
+			t.visual.GetComponent<Renderer>().materials[0].color = highlightColor;
 		}
 	}
 
 	public void removeTileHighlights() {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
-				if (!map[i][j].impassible) map[i][j].GetComponent<Renderer>().material.color = Color.white;
+				if (!map[i][j].impassible) map[i][j].visual.GetComponent<Renderer>().materials[0].color = Color.white;
 			}
 		}
 	}
 
 	public void moveCurrentPlayer(Tile destTile) {
-		if (destTile.GetComponent<Renderer>().material.color != Color.white && !destTile.impassible) {
+		if (destTile.visual.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible) {
 			removeTileHighlights();
 			players[currentPlayerIndex].moving = false;
 			foreach (Tile t in TilePathFinder.FindPath(map[(int) players[currentPlayerIndex].gridPosition.x][(int) players[currentPlayerIndex].gridPosition.y], destTile, players.Where(x => x.gridPosition != players[currentPlayerIndex].gridPosition).Select(x => x.gridPosition).ToArray())) {
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void attackWithCurrentPlayer(Tile destTile) {
-		if (destTile.GetComponent<Renderer>().material.color != Color.white && !destTile.impassible) {
+		if (destTile.visual.GetComponent<Renderer>().materials[0].color != Color.white && !destTile.impassible) {
 			Player target = null;
 			foreach (Player p in players) {
 				if (p.gridPosition == destTile.gridPosition) {
@@ -118,12 +121,37 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void generateMap() {
+		loadMapFromXml();
+
+		// map = new List<List<Tile>>();
+		// for (int i = 0; i < mapSize; i++) {
+		// 	List<Tile> row = new List<Tile>();
+		// 	for (int j = 0; j < mapSize; j++) {
+		// 		Tile tile = ((GameObject) Instantiate(TilePrefab, new Vector3(i - Mathf.Floor(mapSize / 2), 0, -j + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<Tile>();
+		// 		tile.gridPosition = new Vector2(i, j);
+		// 		row.Add(tile);
+		// 	}
+		// 	map.Add(row);
+		// }
+	}
+
+	void loadMapFromXml() {
+		MapXmlContainer container = MapSaveLoad.Load("map.xml");
+
+		mapSize = container.size;
+
+		// initially remove all children 
+		for (int i = 0; i < mapTransform.childCount; i++) {
+			Destroy(mapTransform.GetChild(i).gameObject);
+		}
+
 		map = new List<List<Tile>>();
 		for (int i = 0; i < mapSize; i++) {
 			List<Tile> row = new List<Tile>();
 			for (int j = 0; j < mapSize; j++) {
-				Tile tile = ((GameObject) Instantiate(TilePrefab, new Vector3(i - Mathf.Floor(mapSize / 2), 0, -j + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<Tile>();
+				Tile tile = ((GameObject) Instantiate(PrefabHolder.instance.BASE_TILE_PREFAB, new Vector3(i - Mathf.Floor(mapSize / 2), 0, -j + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<Tile>();
 				tile.gridPosition = new Vector2(i, j);
+				tile.setType((TileType) container.tiles.Where(x => x.locX == i && x.locY == j).First().id);
 				row.Add(tile);
 			}
 			map.Add(row);
@@ -145,8 +173,8 @@ public class GameManager : MonoBehaviour {
 
 		players.Add(player);
 
-		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(4 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
-		player.gridPosition = new Vector2(4, 4);
+		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(4 - Mathf.Floor(mapSize / 2), 1.5f, -5 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
+		player.gridPosition = new Vector2(4, 5);
 		player.playerName = "Lars";
 
 		players.Add(player);
@@ -169,8 +197,8 @@ public class GameManager : MonoBehaviour {
 
 		players.Add(aiplayer);
 
-		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(11 - Mathf.Floor(mapSize / 2), 1.5f, -0 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
-		aiplayer.gridPosition = new Vector2(11, 0);
+		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(12 - Mathf.Floor(mapSize / 2), 1.5f, -1 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
+		aiplayer.gridPosition = new Vector2(12, 1);
 		aiplayer.playerName = "Bot3";
 
 		players.Add(aiplayer);

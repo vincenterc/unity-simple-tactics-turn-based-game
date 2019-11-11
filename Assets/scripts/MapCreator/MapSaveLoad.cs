@@ -33,7 +33,7 @@ public static class MapSaveLoad {
 		List<TileXml> tiles = new List<TileXml>();
 
 		for (int i = 0; i < map.Count; i++) {
-			for (int j = 0; j < map[i].Count; j++) {
+			for (int j = 0; j < map.Count; j++) {
 				tiles.Add(MapSaveLoad.CreateTileXml(map[i][j]));
 			}
 		}
