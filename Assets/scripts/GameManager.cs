@@ -95,30 +95,28 @@ public class GameManager : MonoBehaviour {
 			}
 
 			if (target != null) {
-				if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
-					players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
-					players[currentPlayerIndex].actionPoints--;
+				// 	if (players[currentPlayerIndex].gridPosition.x >= target.gridPosition.x - 1 && players[currentPlayerIndex].gridPosition.x <= target.gridPosition.x + 1 &&
+				// 		players[currentPlayerIndex].gridPosition.y >= target.gridPosition.y - 1 && players[currentPlayerIndex].gridPosition.y <= target.gridPosition.y + 1) {
+				players[currentPlayerIndex].actionPoints--;
 
-					removeTileHighlights();
-					players[currentPlayerIndex].attacking = false;
+				removeTileHighlights();
+				players[currentPlayerIndex].attacking = false;
 
-					// attack logic
-					// roll to hit
-					bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance;
+				// attack logic
+				// roll to hit
+				bool hit = Random.Range(0.0f, 1.0f) <= players[currentPlayerIndex].attackChance - target.evade;
 
-					if (hit) {
-						// damage logic
-						int amountDamage = (int) Mathf.Floor(players[currentPlayerIndex].damageBase + (int) Random.Range(0, players[currentPlayerIndex].damageRollSides));
+				if (hit) {
+					// damage logic
+					int amountDamage = Mathf.Max(0, (int) Mathf.Floor(players[currentPlayerIndex].damageBase + (int) Random.Range(0, players[currentPlayerIndex].damageRollSides)) - target.damageReduction);
 
-						target.HP -= amountDamage;
+					target.HP -= amountDamage;
 
-						Debug.Log(players[currentPlayerIndex].playerName + " successfully hit " + target.playerName + " for " + amountDamage + " damages!");
-					} else {
-						Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
-					}
+					Debug.Log(players[currentPlayerIndex].playerName + " successfully hit " + target.playerName + " for " + amountDamage + " damages!");
 				} else {
-					Debug.Log("Target is not adjacent");
+					Debug.Log(players[currentPlayerIndex].playerName + " missed " + target.playerName + "!");
 				}
+				//}
 			}
 		} else {
 			Debug.Log("Destination invalid");
@@ -169,48 +167,64 @@ public class GameManager : MonoBehaviour {
 		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(0 - Mathf.Floor(mapSize / 2), 1.5f, -0 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
 		player.gridPosition = new Vector2(0, 0);
 		player.playerName = "Bob";
+		player.headArmor = Armor.FromKey(ArmorKey.LeatherCap);
+		player.chestArmor = Armor.FromKey(ArmorKey.MagicianCloak);
+		player.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
 
 		players.Add(player);
 
 		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3((mapSize - 1) - Mathf.Floor(mapSize / 2), 1.5f, -(mapSize - 1) + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
 		player.gridPosition = new Vector2(mapSize - 1, mapSize - 1);
 		player.playerName = "Kyle";
+		player.chestArmor = Armor.FromKey(ArmorKey.LeatherVest);
+		player.handWeapons.Add(Weapon.FromKey(WeaponKey.ShortSword));
+		player.handWeapons.Add(Weapon.FromKey(WeaponKey.ShortSword));
 
 		players.Add(player);
 
 		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(4 - Mathf.Floor(mapSize / 2), 1.5f, -5 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
 		player.gridPosition = new Vector2(4, 5);
 		player.playerName = "Lars";
+		player.chestArmor = Armor.FromKey(ArmorKey.IronPlat);
+		player.handWeapons.Add(Weapon.FromKey(WeaponKey.WarHammer));
 
 		players.Add(player);
 
 		player = ((GameObject) Instantiate(UserPlayerPrefab, new Vector3(8 - Mathf.Floor(mapSize / 2), 1.5f, -8 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<UserPlayer>();
 		player.gridPosition = new Vector2(8, 8);
 		player.playerName = "Olivia";
+		player.chestArmor = Armor.FromKey(ArmorKey.MagicianCloak);
+		player.handWeapons.Add(Weapon.FromKey(WeaponKey.LongBow));
 
 		players.Add(player);
 
 		AIPlayer aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(6 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
 		aiplayer.gridPosition = new Vector2(6, 4);
 		aiplayer.playerName = "Bot1";
+		aiplayer.headArmor = Armor.FromKey(ArmorKey.IronHelmet);
+		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
 
 		players.Add(aiplayer);
 
 		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(8 - Mathf.Floor(mapSize / 2), 1.5f, -4 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
 		aiplayer.gridPosition = new Vector2(8, 4);
 		aiplayer.playerName = "Bot2";
+		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
 
 		players.Add(aiplayer);
 
 		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(12 - Mathf.Floor(mapSize / 2), 1.5f, -1 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
 		aiplayer.gridPosition = new Vector2(12, 1);
 		aiplayer.playerName = "Bot3";
+		aiplayer.chestArmor = Armor.FromKey(ArmorKey.LeatherVest);
+		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.ShortBow));
 
 		players.Add(aiplayer);
 
 		aiplayer = ((GameObject) Instantiate(AIPlayerPrefab, new Vector3(18 - Mathf.Floor(mapSize / 2), 1.5f, -8 + Mathf.Floor(mapSize / 2)), Quaternion.Euler(new Vector3()))).GetComponent<AIPlayer>();
 		aiplayer.gridPosition = new Vector2(18, 8);
 		aiplayer.playerName = "Bot4";
+		aiplayer.handWeapons.Add(Weapon.FromKey(WeaponKey.LongSword));
 
 		players.Add(aiplayer);
 	}
