@@ -55,8 +55,8 @@ public class GameManager : MonoBehaviour {
 
 		List<Tile> highlightedTiles = new List<Tile>();
 
-		if (ignorePlayers) highlightedTiles = TileHighlight.FindHighlight(map[(int) originLocation.x][(int) originLocation.y], distance);
-		else highlightedTiles = TileHighlight.FindHighlight(map[(int) originLocation.x][(int) originLocation.y], distance, players.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray());
+		if (ignorePlayers) highlightedTiles = TileHighlight.FindHighlight(map[(int) originLocation.x][(int) originLocation.y], distance, highlightColor == Color.red);
+		else highlightedTiles = TileHighlight.FindHighlight(map[(int) originLocation.x][(int) originLocation.y], distance, players.Where(x => x.gridPosition != originLocation).Select(x => x.gridPosition).ToArray(), highlightColor == Color.red);
 
 		foreach (Tile t in highlightedTiles) {
 			t.visual.GetComponent<Renderer>().materials[0].color = highlightColor;

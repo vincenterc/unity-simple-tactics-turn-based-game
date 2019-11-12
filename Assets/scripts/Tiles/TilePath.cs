@@ -23,4 +23,10 @@ public class TilePath {
 		listOfTiles.Add(t);
 		lastTile = t;
 	}
+
+	public void addStaticTile(Tile t) {
+		costOfPath += 1;
+		listOfTiles.Add(t);
+		lastTile = t;
+	}
 }
