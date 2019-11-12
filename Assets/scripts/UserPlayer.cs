@@ -54,7 +54,6 @@ public class UserPlayer : Player {
 				attacking = false;
 				GameManager.instance.removeTileHighlights();
 			}
-
 		}
 
 		// attack button
@@ -71,10 +70,9 @@ public class UserPlayer : Player {
 				attacking = false;
 				GameManager.instance.removeTileHighlights();
 			}
-
 		}
 
-		// end button
+		// end turn button
 		buttonRect = new Rect(0, Screen.height - buttonHeight * 1, buttonWidth, buttonHeight);
 
 		if (GUI.Button(buttonRect, "End Turn")) {

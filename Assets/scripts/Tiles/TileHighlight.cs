@@ -51,6 +51,7 @@ public class TileHighlight {
 			}
 		}
 		closed.Remove(originTile);
+		closed.Distinct();
 		return closed;
 	}
 }

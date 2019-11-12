@@ -16,7 +16,7 @@ public enum ArmorKey {
     MagicianHat,
     //chest
     LeatherVest,
-    IronPlat,
+    IronPlate,
     MagicianCloak,
     //gauntlet
     LeatherGauntlet,
@@ -61,6 +61,7 @@ public class Armor : Item {
                     alterMovementPerActionPoint = -1
                 };
                 break;
+
             case ArmorKey.MagicianHat:
                 ret = new Armor() {
                     type = ArmorSlotType.Head,
@@ -74,7 +75,7 @@ public class Armor : Item {
                     alterMovementPerActionPoint = 1
                 };
                 break;
-                //chest
+            //chest
             case ArmorKey.LeatherVest:
                 ret = new Armor() {
                     type = ArmorSlotType.Chest,
@@ -88,7 +89,8 @@ public class Armor : Item {
                     alterMovementPerActionPoint = -1
                 };
                 break;
-            case ArmorKey.IronPlat:
+
+            case ArmorKey.IronPlate:
                 ret = new Armor() {
                     type = ArmorSlotType.Chest,
 
@@ -101,6 +103,7 @@ public class Armor : Item {
                     alterMovementPerActionPoint = -2
                 };
                 break;
+
             case ArmorKey.MagicianCloak:
                 ret = new Armor() {
                     type = ArmorSlotType.Chest,
@@ -114,7 +117,7 @@ public class Armor : Item {
                     alterMovementPerActionPoint = 2
                 };
                 break;
-                //gauntlet
+            //gauntlet
             case ArmorKey.LeatherGauntlet:
                 ret = new Armor() {
                     type = ArmorSlotType.Gauntlet,
@@ -128,6 +131,7 @@ public class Armor : Item {
                     alterMovementPerActionPoint = 0
                 };
                 break;
+
             case ArmorKey.IronGauntlet:
                 ret = new Armor() {
                     type = ArmorSlotType.Gauntlet,
@@ -141,13 +145,14 @@ public class Armor : Item {
                     alterMovementPerActionPoint = 0
                 };
                 break;
+
             case ArmorKey.MagicianRing:
                 ret = new Armor() {
                     type = ArmorSlotType.Gauntlet,
 
                     alterAttackChance = 0,
                     alterAttackRange = 0,
-                    alterDamageReduction = 3,
+                    alterDamageReduction = 0,
                     alterDamageBase = 0,
                     alterDamageRollSides = 0,
                     alterEvade = 0.15f,
@@ -155,6 +160,7 @@ public class Armor : Item {
                 };
                 break;
                 //legs
+
             case ArmorKey.LeatherBoots:
                 ret = new Armor() {
                     type = ArmorSlotType.Leg,
@@ -168,6 +174,7 @@ public class Armor : Item {
                     alterMovementPerActionPoint = 0
                 };
                 break;
+
             case ArmorKey.IronBoots:
                 ret = new Armor() {
                     type = ArmorSlotType.Leg,
@@ -181,6 +188,7 @@ public class Armor : Item {
                     alterMovementPerActionPoint = -2
                 };
                 break;
+
             case ArmorKey.MagicianBoots:
                 ret = new Armor() {
                     type = ArmorSlotType.Leg,

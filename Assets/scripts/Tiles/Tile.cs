@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Tile : MonoBehaviour {
 
-	GameObject PREFEB;
+	GameObject PREFAB;
 
 	public GameObject visual;
 
@@ -23,7 +23,7 @@ public class Tile : MonoBehaviour {
 		if (SceneManager.GetActiveScene().name == "gameScene") generateNeighbors();
 	}
 
-	void generateNeighbors() {
+	public void generateNeighbors() {
 		neighbors = new List<Tile>();
 
 		// up
@@ -31,7 +31,6 @@ public class Tile : MonoBehaviour {
 			Vector2 n = new Vector2(gridPosition.x, gridPosition.y - 1);
 			neighbors.Add(GameManager.instance.map[(int) Mathf.Round(n.x)][(int) Mathf.Round(n.y)]);
 		}
-
 		// down
 		if (gridPosition.y < GameManager.instance.mapSize - 1) {
 			Vector2 n = new Vector2(gridPosition.x, gridPosition.y + 1);
@@ -87,36 +86,36 @@ public class Tile : MonoBehaviour {
 
 	public void setType(TileType t) {
 		type = t;
-		// definition of TileType properties
+		// definitions of TileType properties
 		switch (t) {
 			case TileType.Normal:
 				movementCost = 1;
 				impassible = false;
-				PREFEB = PrefabHolder.instance.TILE_NORMAL_PREFEB;
+				PREFAB = PrefabHolder.instance.TILE_NORMAL_PREFAB;
 				break;
 
 			case TileType.Difficult:
 				movementCost = 2;
 				impassible = false;
-				PREFEB = PrefabHolder.instance.TILE_DIFFICULT_PREFEB;
+				PREFAB = PrefabHolder.instance.TILE_DIFFICULT_PREFAB;
 				break;
 
 			case TileType.VeryDifficult:
 				movementCost = 4;
 				impassible = false;
-				PREFEB = PrefabHolder.instance.TILE_VERY_DIFFICULT_PREFEB;
+				PREFAB = PrefabHolder.instance.TILE_VERY_DIFFICULT_PREFAB;
 				break;
 
 			case TileType.Impassible:
 				movementCost = 9999;
 				impassible = true;
-				PREFEB = PrefabHolder.instance.TILE_IMPASSIBLE_PREFEB;
+				PREFAB = PrefabHolder.instance.TILE_IMPASSIBLE_PREFAB;
 				break;
 
 			default:
 				movementCost = 1;
 				impassible = false;
-				PREFEB = PrefabHolder.instance.TILE_NORMAL_PREFEB;
+				PREFAB = PrefabHolder.instance.TILE_NORMAL_PREFAB;
 				break;
 		}
 
@@ -130,7 +129,7 @@ public class Tile : MonoBehaviour {
 			Destroy(container.transform.GetChild(i).gameObject);
 		}
 
-		GameObject newVisual = (GameObject) Instantiate(PREFEB, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+		GameObject newVisual = (GameObject) Instantiate(PREFAB, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
 		newVisual.transform.parent = container.transform;
 
 		visual = newVisual;

@@ -7,10 +7,10 @@ public class PrefabHolder : MonoBehaviour {
 
 	public GameObject BASE_TILE_PREFAB;
 
-	public GameObject TILE_NORMAL_PREFEB;
-	public GameObject TILE_DIFFICULT_PREFEB;
-	public GameObject TILE_VERY_DIFFICULT_PREFEB;
-	public GameObject TILE_IMPASSIBLE_PREFEB;
+	public GameObject TILE_NORMAL_PREFAB;
+	public GameObject TILE_DIFFICULT_PREFAB;
+	public GameObject TILE_VERY_DIFFICULT_PREFAB;
+	public GameObject TILE_IMPASSIBLE_PREFAB;
 
 	void Awake() {
 		instance = this;

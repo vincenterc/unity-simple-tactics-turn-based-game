@@ -6,5 +6,5 @@ public enum TileType {
 	Normal,
 	Difficult,
 	VeryDifficult,
-	Impassible,
+	Impassible
 }

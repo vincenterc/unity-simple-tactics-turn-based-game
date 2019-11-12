@@ -25,6 +25,7 @@ public class TilePathFinder : MonoBehaviour {
 				continue;
 			}
 			if (current.lastTile == destinationTile) {
+				current.listOfTiles.Distinct();
 				current.listOfTiles.Remove(originTile);
 				return current.listOfTiles;
 			}
